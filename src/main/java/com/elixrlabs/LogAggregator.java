@@ -1,6 +1,8 @@
 package com.elixrlabs;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class LogAggregator {
     public static void main(String[] args) {
@@ -11,7 +13,13 @@ public class LogAggregator {
         String folderPath = args[0];
         System.out.println("Processing…");
         System.out.println("The folder path is : " + folderPath);
-//to get the files in the folder
+
+        List<String> mergedLogs = new ArrayList<>();
+
+    }
+
+    public static void processLogFiles(String folderPath, List<String> mergedLogs) {
+        //to get the files in the folder and read them all.
         File folder = new File(folderPath);
         File[] files = folder.listFiles();
         for (File file : files) {
@@ -22,7 +30,8 @@ public class LogAggregator {
                 BufferedReader reader = new BufferedReader(new FileReader(file));
                 String line;
                 while ((line = reader.readLine()) != null) {
-                    System.out.println(line);
+                   // System.out.println(line);
+                    mergedLogs.add(line);
                 }
                 reader.close();
             } catch (FileNotFoundException e) {

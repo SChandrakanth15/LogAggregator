@@ -5,7 +5,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="764b6f48-8a5c-4635-88af-273a8c9300ce" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/elixrlabs/LogAggregator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/elixrlabs/LogAggregator.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
