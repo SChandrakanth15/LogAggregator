@@ -1,7 +1,37 @@
 package com.elixrlabs;
 
+import java.io.*;
+
 public class LogAggregator {
     public static void main(String[] args) {
+        if (args.length == 0) {
+            System.out.println("please provide the folder path");
+            return;
+        }
+        String folderPath = args[0];
+        System.out.println("Processing…");
+        System.out.println("The folder path is : " + folderPath);
+//to get the files in the folder
+        File folder = new File(folderPath);
+        File[] files = folder.listFiles();
+        for (File file : files) {
+            if (file.isFile()) {
+                System.out.println("File " + file.getName());
+            }
+            try {
+                BufferedReader reader = new BufferedReader(new FileReader(file));
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    System.out.println(line);
+                }
+                reader.close();
+            } catch (FileNotFoundException e) {
+                throw new RuntimeException(e);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
 
     }
 }
+
