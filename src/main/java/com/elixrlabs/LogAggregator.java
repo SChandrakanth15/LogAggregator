@@ -6,6 +6,7 @@ import java.util.Scanner;
 public class LogAggregator {
     public static void main(String[] args) {
         System.out.println("Welcome to LogAggregator Tool");
+        System.out.println("-------------------------------------------");
         Scanner scanner = new Scanner(System.in);
 
         // Ask user to input the folder path
@@ -20,6 +21,7 @@ public class LogAggregator {
         }
         // Show processing message
         System.out.println("Processing...");
+        //to show the files in the program
         File[] files = folder.listFiles();
         if (files != null) {
             System.out.println("Files in the folder:");
@@ -29,5 +31,18 @@ public class LogAggregator {
         } else {
             System.out.println("Folder is empty.");
         }
+        Thread processingThread = new Thread(new ProcessingTask(folder));
+        processingThread.start();
+        // Main thread can continue with other tasks
+        // For demonstration, let's just print dots while processing
+        while (processingThread.isAlive()) {
+            try {
+                Thread.sleep(500); // Sleep for 0.5 seconds
+                System.out.print("."); // Print dots to indicate processing
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        System.out.println("\nProcessing completed.");
     }
 }
