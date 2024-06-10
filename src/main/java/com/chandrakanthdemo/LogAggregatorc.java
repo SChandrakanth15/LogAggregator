@@ -1,9 +1,10 @@
-package com.elixrlabs;
+package com.chandrakanthdemo;
+
 
 import java.io.File;
 import java.util.Scanner;
 
-public class LogAggregator {
+public class LogAggregatorc {
     public static void main(String[] args) {
         System.out.println("Welcome to LogAggregator Tool");
         System.out.println("-------------------------------------------");
@@ -13,23 +14,28 @@ public class LogAggregator {
         System.out.print("Enter the path to the folder containing log files: ");
         String folderPath = scanner.nextLine().trim();
         scanner.close();
-
         // Check if the provided path exists and is a directory
         File folder = new File(folderPath);
         if (!folder.exists() || !folder.isDirectory()) {
-            System.err.println("Please enter a valid folder path.");
+            System.err.println("please enter a valid folder");
             return;
         }
-
         // Show processing message
         System.out.println("Processing...");
-
-        // Create a background thread to process log files
+        //to show the files in the folder
+        File[] files = folder.listFiles();
+        if (files != null) {
+            System.out.println("Files in the folder:");
+            for (File file : files) {
+                System.out.println(file.getName());
+            }
+        } else {
+            System.out.println("Folder is empty.");
+        }
         Thread processingThread = new Thread(new ProcessingTask(folder));
         processingThread.start();
-
         // Main thread can continue with other tasks
-        // just print dots while processing
+        // For demonstration, let's just print dots while processing
         while (processingThread.isAlive()) {
             try {
                 Thread.sleep(500); // Sleep for 0.5 seconds
@@ -38,7 +44,6 @@ public class LogAggregator {
                 e.printStackTrace();
             }
         }
-
         System.out.println("\nProcessing completed.");
     }
 }
