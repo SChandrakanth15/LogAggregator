@@ -1,78 +1,120 @@
 package com.elixrlabs;
 
-import java.io.File;
-import java.io.FileWriter;
+import com.elixrlabs.utils.LogAggregatorConstants;
+import com.elixrlabs.utils.Validations;
+
 import java.io.BufferedReader;
-import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
-import java.util.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.DirectoryStream;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Collections;
+import java.util.concurrent.Callable;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class ProcessingTask implements Runnable {
-    private File folder;
+/**
+ * The ProcessingTask class is responsible for processing log files located in a specified directory.
+ * It reads the log files, merges and sorts their content based on timestamps, and writes the result to an output file.
+ */
+public class ProcessingTask implements Callable<String> {
+    private final String folderPath;
+    private final String outputPath;
 
-    public ProcessingTask(File folder) {
-        this.folder = folder;
+    /**
+     * Constructs a ProcessingTask with the specified folder path and output path.
+     *
+     * @param folderPath the path to the directory containing log files
+     * @param outputPath the path to the output file where merged logs will be written
+     */
+    public ProcessingTask(String folderPath, String outputPath) {
+        if (!Validations.isNotNullOrEmpty(folderPath)) {
+            System.err.println(folderPath + LogAggregatorConstants.NULL_OR_EMPTY_ERROR_MESSAGE);
+        }
+        if (!Validations.isNotNullOrEmpty(outputPath)) {
+            System.err.println(outputPath + LogAggregatorConstants.NULL_OR_EMPTY_ERROR_MESSAGE);
+        }
+        this.folderPath = folderPath;
+        this.outputPath = outputPath;
     }
 
+    /**
+     * The call method is the entry point for the task when executed by an ExecutorService.
+     * It merges and sorts the log files and writes the output to a file.
+     *
+     * @return the path to the output file
+     * @throws Exception if an error occurs during processing
+     */
     @Override
-    public void run() {
-        File[] files = folder.listFiles();
-        if (files != null && files.length > 0) {
-            // Merge log statements from multiple files, sort based on timestamp, and store in a HashMap
-            Map<String, List<String>> logsByTimestamp = mergeAndSortLogs(files);
-            // Write merged and sorted logs to a file
-            writeLogsToFile(logsByTimestamp);
-            System.out.println("Logs files have been merged, sorted, and stored in merged_logs.txt");
+    public String call() throws Exception {
+        List<String> mergedLogs = mergeAndSortLogs();
+        if (mergedLogs != null) {
+            writeLogsToFile(mergedLogs, outputPath);
+            return outputPath;
         } else {
-            System.out.println("Folder is empty.");
+            throw new IOException(LogAggregatorConstants.NO_LOGS_FOUND_MESSAGE);
         }
     }
 
-    private Map<String, List<String>> mergeAndSortLogs(File[] files) {
-        Map<String, List<String>> logsByTimestamp = new HashMap<>();
-
-        Pattern pattern = Pattern.compile("^\\d{4}/\\d{2}/\\d{2}"); // Regex pattern for timestamp
-
-        // Read log statements from each file and merge them
-        for (File file : files) {
-            if (file.isFile()) {
-                try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
-                    String line;
-                    while ((line = reader.readLine()) != null) {
-                        Matcher matcher = pattern.matcher(line);
-                        if (matcher.find()) {
-                            String timestamp = matcher.group(); // Extract timestamp
-                            if (!logsByTimestamp.containsKey(timestamp)) {
-                                logsByTimestamp.put(timestamp, new ArrayList<>());
+    /**
+     * Merges and sorts the log entries from all log files in the specified directory.
+     *
+     * @return a list of merged and sorted log entries
+     * @throws IOException if an error occurs while reading the log files
+     */
+    private List<String> mergeAndSortLogs() throws IOException {
+        Map<String, List<String>> logsByTimestampMap = new HashMap<>();
+        Pattern pattern = Pattern.compile(LogAggregatorConstants.TIMESTAMP_REGEX); // Regex pattern for timestamp
+        try (DirectoryStream<Path> dirStream = Files.newDirectoryStream(Paths.get(folderPath))) {
+            for (Path file : dirStream) {
+                if (Files.isRegularFile(file)) {
+                    try (BufferedReader reader = Files.newBufferedReader(file)) {
+                        String line;
+                        while ((line = reader.readLine()) != null) {
+                            Matcher matcher = pattern.matcher(line);
+                            if (matcher.find()) {
+                                String timestamp = matcher.group();
+                                logsByTimestampMap.computeIfAbsent(timestamp, k -> new ArrayList<>()).add(line);
                             }
-                            logsByTimestamp.get(timestamp).add(line);
                         }
                     }
-                } catch (IOException e) {
-                    e.printStackTrace();
                 }
             }
         }
 
-        // Sort logs by timestamp
-        for (List<String> logs : logsByTimestamp.values()) {
-            Collections.sort(logs);
+        List<String> mergedLogs = new ArrayList<>();
+        // Extract timestamps and sort
+        List<String> timestamps = new ArrayList<>(logsByTimestampMap.keySet());
+        Collections.sort(timestamps);
+
+        // Append logs sorted by timestamps
+        for (String timestamp : timestamps) {
+            List<String> logs = logsByTimestampMap.get(timestamp);
+            mergedLogs.addAll(logs);
         }
 
-        return logsByTimestamp;
+        return mergedLogs;
     }
 
-    private void writeLogsToFile(Map<String, List<String>> logsByTimestamp) {
-        try (FileWriter writer = new FileWriter("merged_logs.txt")) {
-            for (Map.Entry<String, List<String>> entry : logsByTimestamp.entrySet()) {
-                for (String log : entry.getValue()) {
-                    writer.write(log + System.lineSeparator());
-                }
+    /**
+     * Writes the merged and sorted log entries to the specified output file.
+     *
+     * @param logs       logs the list of merged and sorted log entries
+     * @param outputPath outputPath the path to the output file
+     * @throws IOException if an error occurs while writing the log files
+     */
+    private void writeLogsToFile(List<String> logs, String outputPath) throws IOException {
+        try (FileWriter writer = new FileWriter(outputPath)) {
+            for (String log : logs) {
+                writer.write(log + System.lineSeparator());
             }
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
+
 }

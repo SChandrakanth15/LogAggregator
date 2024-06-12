@@ -37,7 +37,7 @@ class ProcessingTask implements Runnable {
         }
     }
 
-    private void mergeLogFile(File file, FileWriter writer) {
+    private String mergeLogFile(File file, FileWriter writer) {
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
             String line;
             while ((line = reader.readLine()) != null) {
@@ -46,5 +46,6 @@ class ProcessingTask implements Runnable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return "";
     }
 }

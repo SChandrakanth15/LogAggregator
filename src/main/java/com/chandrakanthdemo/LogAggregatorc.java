@@ -1,14 +1,25 @@
 package com.chandrakanthdemo;
 
-
+//remove empty spaces/lines
 import java.io.File;
 import java.util.Scanner;
 
-public class LogAggregatorc {
+/**
+ * jvsjgkkhlhe
+ * jhsgjhd
+ * hdg
+ */
+public class LogAggregatorc { //Clss name should not be as project name
+    //Give class name as noun
+
+    /**
+     * jygwqdg
+     * @param args
+     */
     public static void main(String[] args) {
         System.out.println("Welcome to LogAggregator Tool");
         System.out.println("-------------------------------------------");
-        Scanner scanner = new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in);//
 
         // Ask user to input the folder path
         System.out.print("Enter the path to the folder containing log files: ");
