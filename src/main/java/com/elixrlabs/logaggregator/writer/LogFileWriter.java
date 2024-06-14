@@ -12,7 +12,7 @@ public class LogFileWriter {
      * @param outputPath outputPath the path to the output file.
      * @throws IOException IOException if an error occurs while writing the log files.
      */
-    public static void writeLogsToFile(List<String> logs, String outputPath) throws IOException {
+    public void writeLogsToFile(List<String> logs, String outputPath) throws IOException {
         try (FileWriter filewriter = new FileWriter(outputPath)) {
             for (String log : logs) {
                 filewriter.write(log + System.lineSeparator());

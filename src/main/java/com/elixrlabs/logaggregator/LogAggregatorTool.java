@@ -33,18 +33,20 @@ public class LogAggregatorTool {
     private void start() {
         System.out.println(LogAggregatorConstants.WELCOME_MESSAGE);
         System.out.println(LogAggregatorConstants.LINE_SEPARATOR);
+        LogAggregatorValidator validator = new LogAggregatorValidator();
         String folderPath = getUserInputFolderPath();
-        if (folderPath == null) {
+        if (!validator.isNotNullOrEmpty(folderPath) || !validator.isvalidDirectory(folderPath)) {
+            System.out.println(LogAggregatorConstants.INVALID_FOLDER_PATH_MESSAGE);
             return;
         }
         System.out.println(LogAggregatorConstants.PROCESSING_MESSAGE);
         String outputFile = processLogs(folderPath, LogAggregatorConstants.OUTPUT_FILE_PATH);
-        if (outputFile != null) {
-            File file = new File(outputFile);
-            System.out.println(LogAggregatorConstants.NEW_LINE_CHAR + " Output filename : " + file.getName() + LogAggregatorConstants.NEW_LINE_CHAR + " The location is " + file.getAbsolutePath());
-        } else {
+        if (outputFile == null) {
             System.out.println(LogAggregatorConstants.PROCESSING_FAILED_MESSAGE);
+            return; // or continue; if it's inside a loop
         }
+        File file = new File(outputFile);
+        System.out.println(LogAggregatorConstants.NEW_LINE_CHAR + " Output filename : " + file.getName() + LogAggregatorConstants.NEW_LINE_CHAR + " The location is " + file.getAbsolutePath());
     }
 
     /**
@@ -53,20 +55,20 @@ public class LogAggregatorTool {
      * @return the validated folder path, or null if the validation fails
      */
     private String getUserInputFolderPath() {
-        Scanner scanner = new Scanner(System.in);
-        LogAggregatorValidator validator = new LogAggregatorValidator();
-        String folderPath;
+        Scanner inputscanner = new Scanner(System.in);
+        LogAggregatorValidator logAggregatorValidator = new LogAggregatorValidator();
+        String userInputFolderPath;
         while (true) {
             System.out.print(LogAggregatorConstants.ENTER_PATH_FOLDER_OF_LOGFILES);
-            folderPath = scanner.nextLine().trim();
-            if (validator.isvalidDirectory(folderPath)) {
+            userInputFolderPath = inputscanner.nextLine().trim();
+            if (logAggregatorValidator.isvalidDirectory(userInputFolderPath)) {
                 break;
             } else {
                 System.out.println(LogAggregatorConstants.INVALID_FOLDER_PATH_MESSAGE);
             }
         }
-        scanner.close();
-        return folderPath;
+        inputscanner.close();
+        return userInputFolderPath;
     }
 
     /**
@@ -77,18 +79,19 @@ public class LogAggregatorTool {
      * @return the path of the output file if processing is successful, null otherwise
      */
     private String processLogs(String folderPath, String outputFilePath) {
-        ExecutorService executorService = Executors.newSingleThreadExecutor();
-        Callable<String> task = new ProcessingTask(folderPath, outputFilePath);
-        Future<String> future = executorService.submit(task);
+        ExecutorService singleThreadExecutor = Executors.newSingleThreadExecutor();
+        Callable<String> logProcessingTask = new LogProcessorTask(folderPath, outputFilePath);
+        Future<String> logProcessingResult = singleThreadExecutor.submit(logProcessingTask);
 
         try {
-            return future.get();
+            return logProcessingResult.get();
         } catch (InterruptedException | ExecutionException e) {
             System.err.println(LogAggregatorConstants.ERROR_DURING_PROCESSING_MESSAGE + e.getMessage());
             return null;
         } finally {
-            executorService.shutdown();
+            singleThreadExecutor.shutdown();
         }
     }
 }
-//folderpath = C:\elixrlabs\corejavapplication\logfiles
+
+//in 81 line 
