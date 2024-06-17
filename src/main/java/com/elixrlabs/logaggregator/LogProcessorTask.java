@@ -71,9 +71,9 @@ public class LogProcessorTask implements Callable<String> {
             }
             logFileWriter.writeLogsToFile(mergedLogsList, outputFilePath);
             processingResult = "success";
-        } catch (Exception e) {
+        } catch (Exception exception) {
             processingResult = "failure";
-            processingErrorMessage = e.getMessage();
+            processingErrorMessage = exception.getMessage();
         }
 
         // Insert data into the audit table
@@ -176,8 +176,7 @@ public class LogProcessorTask implements Callable<String> {
     }
 
     private String getCurrentTimeStamp() {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        return sdf.format(new Date());
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        return dateFormat.format(new Date());
     }
 }
-

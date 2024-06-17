@@ -85,13 +85,11 @@ public class LogAggregatorTool {
 
         try {
             return logProcessingResult.get();
-        } catch (InterruptedException | ExecutionException e) {
-            System.err.println(LogAggregatorConstants.ERROR_DURING_PROCESSING_MESSAGE + e.getMessage());
+        } catch (InterruptedException | ExecutionException processingException) {
+            System.err.println(LogAggregatorConstants.ERROR_DURING_PROCESSING_MESSAGE + processingException.getMessage());
             return null;
         } finally {
             singleThreadExecutor.shutdown();
         }
     }
 }
-
-//in 81 line 
