@@ -5,10 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="764b6f48-8a5c-4635-88af-273a8c9300ce" name="Changes" comment="added mergedlogs.">
-      <change afterPath="$PROJECT_DIR$/merged_logs.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/elixrlabs/Validation.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/elixrlabs/logaggregator/LogAggregatorTool.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/elixrlabs/logaggregator/LogProcessorTask.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/elixrlabs/logaggregator/constants/LogAggregatorConstants.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/elixrlabs/logaggregator/reader/LogFileReader.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/elixrlabs/logaggregator/validator/LogAggregatorValidator.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/elixrlabs/logaggregator/writer/LogFileWriter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/elixrlabs/LogAggregator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/elixrlabs/LogAggregator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/elixrlabs/LogAggregator.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/elixrlabs/ProcessingTask.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/elixrlabs/Validation.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -74,12 +80,19 @@
     "Gradle.LogAggregator [Sambit].executor": "Run",
     "Gradle.LogAggregator.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "master",
+    "git-widget-placeholder": "javaapplication",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/S Chandrakanth/OneDrive - Elixr Labs/Desktop/project/LogAggregator",
+    "last_opened_file_path": "C:/Users/S Chandrakanth/OneDrive - Elixr Labs/Desktop/project/LogAggregator/src/main/java/com/elixrlabs/logaggregator",
     "onboarding.tips.debug.path": "C:/Users/chandrakanth.shaji/IdeaProjects/LogAggregator/src/main/java/com/elixrlabs/Main.java"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\S Chandrakanth\OneDrive - Elixr Labs\Desktop\project\LogAggregator\src\main\java\com\elixrlabs\logaggregator" />
+      <recent name="C:\Users\S Chandrakanth\OneDrive - Elixr Labs\Desktop\project\LogAggregator\src\main\java\com\elixrlabs\logaggregator\writer" />
+      <recent name="C:\Users\S Chandrakanth\OneDrive - Elixr Labs\Desktop\project\LogAggregator\src\main\java\com\elixrlabs\logaggregator\constants" />
+    </key>
+  </component>
   <component name="RunManager">
     <configuration name="LogAggregator" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.elixrlabs.LogAggregator" />
