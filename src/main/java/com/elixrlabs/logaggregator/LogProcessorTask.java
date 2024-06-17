@@ -75,7 +75,6 @@ public class LogProcessorTask implements Callable<String> {
             processingResult = "failure";
             processingErrorMessage = exception.getMessage();
         }
-
         // Insert data into the audit table
         AuditLogEntry auditLogEntry = new AuditLogEntry();
         if ("failure".equals(processingResult)) {
@@ -90,7 +89,7 @@ public class LogProcessorTask implements Callable<String> {
             auditLogEntry.setOutput_file_name(outputFilePath);
         }
 
-        try (Connection databaseConnection = DriverManager.getConnection(AuditTableConstants.URL,AuditTableConstants.USER,AuditTableConstants.PASSWORD)) {
+        try (Connection databaseConnection = DriverManager.getConnection(AuditTableConstants.URL, AuditTableConstants.USER, AuditTableConstants.PASSWORD)) {
             AuditEntryOperation.insertDataIntoAuditTable(databaseConnection, auditLogEntry);
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
@@ -108,10 +107,10 @@ public class LogProcessorTask implements Callable<String> {
      * Validates the folder and output paths.
      */
     private void validatePaths() {
-        if (!validator.isNotNullOrEmpty(folderPath)) {
+        if (!validator.isValidPathString(folderPath)) {
             throw new IllegalArgumentException(folderPath + LogAggregatorConstants.NULL_OR_EMPTY_ERROR_MESSAGE);
         }
-        if (!validator.isNotNullOrEmpty(outputFilePath)) {
+        if (!validator.isValidPathString(outputFilePath)) {
             throw new IllegalArgumentException(outputFilePath + LogAggregatorConstants.NULL_OR_EMPTY_ERROR_MESSAGE);
         }
     }

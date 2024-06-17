@@ -35,7 +35,7 @@ public class LogAggregatorTool {
         System.out.println(LogAggregatorConstants.LINE_SEPARATOR);
         LogAggregatorValidator validator = new LogAggregatorValidator();
         String folderPath = getUserInputFolderPath();
-        if (!validator.isNotNullOrEmpty(folderPath) || !validator.isvalidDirectory(folderPath)) {
+        if (!validator.isValidPathString(folderPath) || !validator.isvalidDirectory(folderPath)) {
             System.out.println(LogAggregatorConstants.INVALID_FOLDER_PATH_MESSAGE);
             return;
         }
@@ -86,7 +86,7 @@ public class LogAggregatorTool {
         try {
             return logProcessingResult.get();
         } catch (InterruptedException | ExecutionException processingException) {
-            System.err.println(LogAggregatorConstants.ERROR_DURING_PROCESSING_MESSAGE + processingException.getMessage());
+            System.out.println(LogAggregatorConstants.ERROR_DURING_PROCESSING_MESSAGE + processingException.getMessage());
             return null;
         } finally {
             singleThreadExecutor.shutdown();

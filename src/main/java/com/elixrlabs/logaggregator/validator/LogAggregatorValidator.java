@@ -17,11 +17,11 @@ public class LogAggregatorValidator {
     /**
      * Validates if the provided string is not null and not empty.
      *
-     * @param inputString the string to validate
+     * @param pathString the string to validate
      * @return true if the string is not null and not empty, false otherwise
      */
-    public boolean isNotNullOrEmpty(String inputString) {
-        return inputString != null && !inputString.trim().isEmpty();
+    public boolean isValidPathString(String pathString) {
+        return pathString != null && !pathString.trim().isEmpty();
     }
 
     /**

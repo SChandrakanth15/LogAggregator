@@ -8,9 +8,9 @@ public class LogFileWriter {
     /**
      * Writes the merged and sorted log entries to the specified output file.
      *
-     * @param mergedLogs       mergedLogs the list of merged and sorted log entries.
+     * @param mergedLogs     mergedLogs the list of merged and sorted log entries.
      * @param outputFilePath outputPath the path to the output file.
-     * @throws IOException IOException if an error occurs while writing the log files.
+     * @throws IOException if an error occurs while writing the log files.
      */
     public void writeLogsToFile(List<String> mergedLogs, String outputFilePath) throws IOException {
         try (FileWriter fileWriter = new FileWriter(outputFilePath)) {
