@@ -1,15 +1,9 @@
 package com.elixrlabs.logaggregator;
 
-import com.elixrlabs.logaggregator.constants.AuditTableConstants;
 import com.elixrlabs.logaggregator.constants.LogAggregatorConstants;
-import com.elixrlabs.logaggregator.jdbc.AuditEntryOperation;
-import com.elixrlabs.logaggregator.jdbc.AuditLogEntry;
 import com.elixrlabs.logaggregator.validator.LogAggregatorValidator;
 
 import java.io.File;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 import java.util.Scanner;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
@@ -66,7 +60,6 @@ public class LogAggregatorTool {
         ExecutorService singleThreadExecutor = Executors.newSingleThreadExecutor();
         Callable<String> logProcessingTask = new LogProcessorTask(folderPath, outputFilePath);
         Future<String> logProcessingResult = singleThreadExecutor.submit(logProcessingTask);
-
         try {
             return logProcessingResult.get();
         } catch (InterruptedException | ExecutionException processingException) {
@@ -99,5 +92,3 @@ public class LogAggregatorTool {
         return userInputFolderPath;
     }
 }
-//Folderpath : C:\elixrlabs\corejavapplication\logfiles
-//C:\elixrlabs\corejavapplication

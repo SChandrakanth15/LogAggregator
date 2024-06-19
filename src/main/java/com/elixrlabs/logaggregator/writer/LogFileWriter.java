@@ -1,5 +1,6 @@
 package com.elixrlabs.logaggregator.writer;
 
+import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
@@ -13,7 +14,7 @@ public class LogFileWriter {
      * @throws IOException if an error occurs while writing the log files.
      */
     public void writeLogsToFile(List<String> mergedLogs, String outputFilePath) throws IOException {
-        try (FileWriter fileWriter = new FileWriter(outputFilePath)) {
+        try (BufferedWriter fileWriter = new BufferedWriter(new FileWriter(outputFilePath))) {
             for (String logEntry : mergedLogs) {
                 fileWriter.write(logEntry + System.lineSeparator());
             }

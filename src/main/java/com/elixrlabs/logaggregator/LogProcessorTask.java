@@ -25,6 +25,8 @@ import java.util.Collections;
 import java.util.concurrent.Callable;
 import java.util.regex.Pattern;
 import java.util.Date;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * The ProcessingTask class is responsible for processing log files located in a specified directory.
@@ -62,7 +64,7 @@ public class LogProcessorTask implements Callable<String> {
         List<String> mergedLogsList = null;
         String processingResult;
         String processingErrorMessage = "";
-
+        AuditEntryOperation auditEntryOperation = new AuditEntryOperation();
         try {
             mergedLogsList = mergeAndSortLogs();
             if (mergedLogsList == null || mergedLogsList.isEmpty()) {
@@ -74,35 +76,31 @@ public class LogProcessorTask implements Callable<String> {
             processingResult = LogAggregatorConstants.FAILURE_RESULT;
             processingErrorMessage = exception.getMessage();
         }
-
-        // Insert data into the audit table
         AuditLogEntry auditLogEntry = new AuditLogEntry();
-        if (LogAggregatorConstants.FAILURE_RESULT.equals(processingResult)) {
+
+        if (processingResult.equals(LogAggregatorConstants.FAILURE_RESULT)) {
             auditLogEntry.setResult(processingResult);
             auditLogEntry.setError_message(processingErrorMessage);
+            auditLogEntry.setPathfolder(folderPath);
+            auditLogEntry.setDate_time_of_operation(getCurrentTimeStamp());
         } else {
             auditLogEntry.setPathfolder(folderPath);
-            auditLogEntry.setNo_of_files(countRegularFilesInDirectory());
-            auditLogEntry.setName_of_file(getFileNames());
+            auditLogEntry.setNo_of_files(countFilesInTheDirectory());
+            auditLogEntry.setName_of_file(getFileNamesInTheDirectory());
             auditLogEntry.setDate_time_of_operation(getCurrentTimeStamp());
             auditLogEntry.setResult(processingResult);
             auditLogEntry.setOutput_file_name(outputFilePath);
         }
-
         try (Connection databaseConnection = DriverManager.getConnection(AuditTableConstants.URL, AuditTableConstants.USER, AuditTableConstants.PASSWORD)) {
-            AuditEntryOperation.insertDataIntoAuditTable(databaseConnection, auditLogEntry);
+            auditEntryOperation.insertDataIntoAuditTable(databaseConnection, auditLogEntry);
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
         }
-
         if (LogAggregatorConstants.FAILURE_RESULT.equals(processingResult)) {
             throw new IOException(LogAggregatorConstants.PROCESSING_FAILED_MESSAGE + processingErrorMessage);
         }
-
         return outputFilePath;
     }
-
-
 
     /**
      * Validates the folder and output paths.
@@ -116,7 +114,6 @@ public class LogProcessorTask implements Callable<String> {
         }
     }
 
-
     /**
      * Merges and sorts the log entries from all log files in the specified directory.
      *
@@ -127,13 +124,13 @@ public class LogProcessorTask implements Callable<String> {
         Map<String, List<String>> logsByTimestampMap = new HashMap<>();
         Pattern timestampPattern = Pattern.compile(LogAggregatorConstants.TIMESTAMP_REGEX);
         Path logFolderPath = Paths.get(folderPath);
-        try (DirectoryStream<Path> logFilesStream = Files.newDirectoryStream(logFolderPath, path -> path.toString().endsWith(".log"))) {
+        try (DirectoryStream<Path> logFilesStream = Files.newDirectoryStream(logFolderPath, path -> path.toString().endsWith(LogAggregatorConstants.LOG_EXTENSION))) {
             for (Path logFile : logFilesStream) {
                 logFileReader.readLogsFromFile(logFile, timestampPattern, logsByTimestampMap);
             }
         }
         if (logsByTimestampMap.isEmpty()) {
-            throw new IOException("No log files found in the directory.");
+            throw new IOException(LogAggregatorConstants.IO_EXCEPTION);
         }
         List<String> mergedLogsList = new ArrayList<>();
         List<String> timestampsList = new ArrayList<>(logsByTimestampMap.keySet());
@@ -145,38 +142,24 @@ public class LogProcessorTask implements Callable<String> {
         return mergedLogsList;
     }
 
-
-    private int countRegularFilesInDirectory() throws IOException {
-        Path logFolderPath = Paths.get(folderPath);
-        try (DirectoryStream<Path> directoryStream = Files.newDirectoryStream(logFolderPath)) {
-            int regularFileCount = 0;
-            for (Path filePath : directoryStream) {
-                if (Files.isRegularFile(filePath)) {
-                    regularFileCount++;
-                }
-            }
-            return regularFileCount;
+    private int countFilesInTheDirectory() throws IOException {
+        try (Stream<Path> paths = Files.list(Paths.get(folderPath))) {
+            return (int) paths.filter(Files::isRegularFile).count();
         }
     }
 
-    private String getFileNames() throws IOException {
-        StringBuilder fileNamesBuilder = new StringBuilder();
-        try (DirectoryStream<Path> directoryStream = Files.newDirectoryStream(Paths.get(folderPath))) {
-            for (Path filePath : directoryStream) {
-                if (Files.isRegularFile(filePath)) {
-                    fileNamesBuilder.append(filePath.getFileName()).append(", ");
-                }
-            }
+    private String getFileNamesInTheDirectory() throws IOException {
+        try (Stream<Path> paths = Files.list(Paths.get(folderPath))) {
+            return paths
+                    .filter(Files::isRegularFile)
+                    .map(Path::getFileName)
+                    .map(Path::toString)
+                    .collect(Collectors.joining(", "));
         }
-        String fileNames = fileNamesBuilder.toString();
-        if (fileNames.length() > 2) {
-            fileNames = fileNames.substring(0, fileNames.length() - 2);
-        }
-        return fileNames;
     }
 
     private String getCurrentTimeStamp() {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat dateFormat = new SimpleDateFormat(LogAggregatorConstants.SIMPLE_DATE_FORMAT);
         return dateFormat.format(new Date());
     }
 }

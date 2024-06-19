@@ -1,0 +1,10 @@
+CREATE TABLE audit (
+    slno INT AUTO_INCREMENT PRIMARY KEY,
+    pathfolder VARCHAR(255),
+    no_of_files INT,
+    name_of_file VARCHAR(255),
+    date_time_of_operation VARCHAR(255),
+    result VARCHAR(50),
+    output_file_name VARCHAR(255),
+    error_message VARCHAR(255)
+);

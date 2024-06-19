@@ -1,5 +1,7 @@
 package com.elixrlabs.logaggregator.constants;
 
+import java.security.PublicKey;
+
 public class LogAggregatorConstants {
     public static final String ENTER_PATH_FOLDER_OF_LOGFILES = " Enter the path to the folder containing log files: ";
     public static final String ERROR_DURING_PROCESSING_MESSAGE = " Error occurred during processing: ";
@@ -15,4 +17,7 @@ public class LogAggregatorConstants {
     public static final String WELCOME_MESSAGE = " Welcome to LogAggregator Tool";
     public static final String SUCCESS_RESULT = "success";
     public static final String FAILURE_RESULT = "failure";
+    public static final String SIMPLE_DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
+    public static final String LOG_EXTENSION=".log";
+    public static final String IO_EXCEPTION ="No log files found in the directory.";
 }
