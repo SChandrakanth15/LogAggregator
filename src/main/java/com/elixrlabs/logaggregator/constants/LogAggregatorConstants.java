@@ -11,6 +11,8 @@ public class LogAggregatorConstants {
     public static final String OUTPUT_FILE_PATH = "C:\\elixrlabs\\chandrakanth\\merged_logs.txt";
     public static final String PROCESSING_FAILED_MESSAGE = " Processing failed. Unable to create merged log file.";
     public static final String PROCESSING_MESSAGE = " Processing...";
-    public static final String TIMESTAMP_REGEX = "^\\d{4}/\\d{2}/\\d{2}";
+    public static final String TIMESTAMP_REGEX = "\\b(\\d{4}[-/]\\d{2}[-/]\\d{2}|\\d{2}[-/]\\d{2}[-/]\\d{4})\\b";
     public static final String WELCOME_MESSAGE = " Welcome to LogAggregator Tool";
+    public static final String SUCCESS_RESULT = "success";
+    public static final String FAILURE_RESULT = "failure";
 }

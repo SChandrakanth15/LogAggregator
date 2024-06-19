@@ -9,7 +9,7 @@ public class LogAggregatorValidator {
      * @param directoryPath the directory directoryPath to validate
      * @return true if the directoryPath is a valid directory, false otherwise
      */
-    public boolean isvalidDirectory(String directoryPath) {
+    public boolean isValidDirectory(String directoryPath) {
         File fileDirectory = new File(directoryPath);
         return fileDirectory.exists() && fileDirectory.isDirectory();
     }

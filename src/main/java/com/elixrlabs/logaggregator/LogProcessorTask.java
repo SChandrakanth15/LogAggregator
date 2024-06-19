@@ -56,7 +56,6 @@ public class LogProcessorTask implements Callable<String> {
      * @return the path to the output file
      * @throws Exception if an error occurs during processing
      */
-    @Override
     public String call() throws Exception {
         LogFileWriter logFileWriter = new LogFileWriter();
         validatePaths();
@@ -70,14 +69,15 @@ public class LogProcessorTask implements Callable<String> {
                 throw new IOException(LogAggregatorConstants.NO_LOGS_FOUND_MESSAGE);
             }
             logFileWriter.writeLogsToFile(mergedLogsList, outputFilePath);
-            processingResult = "success";
+            processingResult = LogAggregatorConstants.SUCCESS_RESULT;
         } catch (Exception exception) {
-            processingResult = "failure";
+            processingResult = LogAggregatorConstants.FAILURE_RESULT;
             processingErrorMessage = exception.getMessage();
         }
+
         // Insert data into the audit table
         AuditLogEntry auditLogEntry = new AuditLogEntry();
-        if ("failure".equals(processingResult)) {
+        if (LogAggregatorConstants.FAILURE_RESULT.equals(processingResult)) {
             auditLogEntry.setResult(processingResult);
             auditLogEntry.setError_message(processingErrorMessage);
         } else {
@@ -95,12 +95,13 @@ public class LogProcessorTask implements Callable<String> {
             sqlException.printStackTrace();
         }
 
-        if ("failure".equals(processingResult)) {
+        if (LogAggregatorConstants.FAILURE_RESULT.equals(processingResult)) {
             throw new IOException(LogAggregatorConstants.PROCESSING_FAILED_MESSAGE + processingErrorMessage);
         }
 
         return outputFilePath;
     }
+
 
 
     /**

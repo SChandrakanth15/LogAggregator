@@ -9,21 +9,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class AuditEntryOperation {
-    public static void main(String[] args) {
-        try {
-            Class.forName(AuditTableConstants.DRIVER_CLASS_NAME);
-            try (Connection databaseConnection = DriverManager.getConnection(AuditTableConstants.URL, AuditTableConstants.USER, AuditTableConstants.PASSWORD)) {
-                AuditLogEntry auditLogEntry = new AuditLogEntry();
-                // Call the insertDataIntoAuditTable method with both Connection and AuditTable objects
-                insertDataIntoAuditTable(databaseConnection, auditLogEntry);
-            } catch (SQLException sqlException) {
-                sqlException.printStackTrace();
-            }
-        } catch (ClassNotFoundException classNotFoundException) {
-            classNotFoundException.printStackTrace();
-        }
-    }
-
     public static void insertDataIntoAuditTable(Connection databaseConnection, AuditLogEntry auditLogEntry) throws SQLException {
         try (PreparedStatement insertStatement = databaseConnection.prepareStatement(AuditTableConstants.INSERT_SQL, PreparedStatement.RETURN_GENERATED_KEYS)) {
             insertStatement.setString(1, auditLogEntry.getPathfolder());
