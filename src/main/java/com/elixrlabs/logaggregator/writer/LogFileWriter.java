@@ -1,6 +1,9 @@
 package com.elixrlabs.logaggregator.writer;
 
+import com.elixrlabs.logaggregator.constants.LogAggregatorConstants;
+
 import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
@@ -18,6 +21,8 @@ public class LogFileWriter {
             for (String logEntry : mergedLogs) {
                 fileWriter.write(logEntry + System.lineSeparator());
             }
+        } catch (IOException ioException) {
+            System.out.println(LogAggregatorConstants.IO_EXCEPTION + ioException.getMessage());
         }
     }
 }

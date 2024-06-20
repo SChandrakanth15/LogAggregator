@@ -1,5 +1,7 @@
 package com.elixrlabs.logaggregator.reader;
 
+import com.elixrlabs.logaggregator.constants.LogAggregatorConstants;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -18,12 +20,12 @@ public class LogFileReader {
     /**
      * Reads log entries from the specified logFilePath and stores them in the provided map based on their timestamps.
      *
-     * @param logFilePath the path to the log logFilePath.
-     * @param timestampPattern the timestampPattern to match timestamps in the log entries.
+     * @param logFilePath        the path to the log logFilePath.
+     * @param timestampPattern   the timestampPattern to match timestamps in the log entries.
      * @param logsByTimestampMap the map to store log entries categorized by timestamps
      * @throws IOException if an error occurs while reading the log logFilePath
      */
-    public  void readLogsFromFile(Path logFilePath, Pattern timestampPattern, Map<String, List<String>> logsByTimestampMap) throws IOException {
+    public void readLogsFromFile(Path logFilePath, Pattern timestampPattern, Map<String, List<String>> logsByTimestampMap) throws IOException {
         try (BufferedReader logFileReader = Files.newBufferedReader(logFilePath)) {
             String logEntryLine;
             while ((logEntryLine = logFileReader.readLine()) != null) {
@@ -33,6 +35,8 @@ public class LogFileReader {
                     logsByTimestampMap.computeIfAbsent(timestamp, k -> new ArrayList<>()).add(logEntryLine);
                 }
             }
+        } catch (IOException ioException) {
+            System.out.println(LogAggregatorConstants.IO_EXCEPTION + ioException.getMessage());
         }
     }
 }
