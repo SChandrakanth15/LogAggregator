@@ -31,7 +31,7 @@ public class LogAggregatorValidator {
      * @return true if the filePath is a valid file, false otherwise
      */
     public boolean isValidFile(String filePath) {
-        File file = new File(filePath);
-        return file.exists() && file.isFile();
+        File logFile = new File(filePath);
+        return logFile.exists() && logFile.isFile();
     }
 }
