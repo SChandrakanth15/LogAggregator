@@ -5,16 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="764b6f48-8a5c-4635-88af-273a8c9300ce" name="Changes" comment="added mergedlogs.">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/elixrlabs/logaggregator/LogAggregatorTool.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/elixrlabs/logaggregator/LogProcessorTask.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/elixrlabs/logaggregator/constants/LogAggregatorConstants.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/elixrlabs/logaggregator/reader/LogFileReader.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/elixrlabs/logaggregator/validator/LogAggregatorValidator.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/elixrlabs/logaggregator/writer/LogFileWriter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/elixrlabs/LogAggregator.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/elixrlabs/ProcessingTask.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/elixrlabs/Validation.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/elixrlabs/logaggregator/validator/LogAggregatorValidator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/elixrlabs/logaggregator/validator/LogAggregatorValidator.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -69,31 +61,32 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "Application.Hello.executor": "Run",
-    "Application.LogAggregator.executor": "Run",
-    "Application.Main.executor": "Run",
-    "Gradle.Build LogAggregator.executor": "Run",
-    "Gradle.LogAggregator [:LogAggregator.main()].executor": "Run",
-    "Gradle.LogAggregator [Sambit].executor": "Run",
-    "Gradle.LogAggregator.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "javaapplication",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/S Chandrakanth/OneDrive - Elixr Labs/Desktop/project/LogAggregator/src/main/java/com/elixrlabs/logaggregator",
-    "onboarding.tips.debug.path": "C:/Users/chandrakanth.shaji/IdeaProjects/LogAggregator/src/main/java/com/elixrlabs/Main.java"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;Application.Hello.executor&quot;: &quot;Run&quot;,
+    &quot;Application.LogAggregator.executor&quot;: &quot;Run&quot;,
+    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.Build LogAggregator.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.LogAggregator [:LogAggregator.main()].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.LogAggregator [:LogAggregatorTool.main()].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.LogAggregator [Sambit].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.LogAggregator.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;javaapplication&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/S Chandrakanth/OneDrive - Elixr Labs/Desktop/project/CoreJava&quot;,
+    &quot;onboarding.tips.debug.path&quot;: &quot;C:/Users/chandrakanth.shaji/IdeaProjects/LogAggregator/src/main/java/com/elixrlabs/Main.java&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\S Chandrakanth\OneDrive - Elixr Labs\Desktop\project\LogAggregator\src\main\java\com\elixrlabs\logaggregator\constants" />
       <recent name="C:\Users\S Chandrakanth\OneDrive - Elixr Labs\Desktop\project\LogAggregator\src\main\java\com\elixrlabs\logaggregator" />
       <recent name="C:\Users\S Chandrakanth\OneDrive - Elixr Labs\Desktop\project\LogAggregator\src\main\java\com\elixrlabs\logaggregator\writer" />
-      <recent name="C:\Users\S Chandrakanth\OneDrive - Elixr Labs\Desktop\project\LogAggregator\src\main\java\com\elixrlabs\logaggregator\constants" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Application.LogAggregatorTool">
     <configuration name="LogAggregator" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.elixrlabs.LogAggregator" />
       <module name="LogAggregator.main" />
@@ -107,8 +100,22 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="LogAggregatorTool" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.elixrlabs.logaggregator.LogAggregatorTool" />
+      <module name="LogAggregator.main" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.elixrlabs.logaggregator.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.LogAggregatorTool" />
         <item itemvalue="Application.LogAggregator" />
       </list>
     </recent_temporary>
